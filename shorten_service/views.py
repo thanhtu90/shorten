@@ -49,6 +49,8 @@ def manage_url(request, short_url):
         'short_url' : short_url,
         'dailyhits' : dailyhits,
     } 
+
+    # return render(request, 'shorten_service/tmp.html', context)
     return render(request, 'shorten_service/manage.html', context)
     
 
