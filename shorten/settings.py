@@ -25,7 +25,7 @@ SECRET_KEY = '^)9+-@#^-&$t)ivpk_bk*-t6sxh2j3g3gxy583kkmgq1f+waim'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['45.76.152.135']
 
 
 # Application definition
@@ -51,10 +51,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'shorten.urls'
 
+TEMPLATE_PATH = os.path.join(BASE_DIR,'shorten_service/templates')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_PATH],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,8 +77,12 @@ WSGI_APPLICATION = 'shorten.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'shorten',
+        'USER': 'dev_user',
+        'PASSWORD': '123456789',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -118,3 +124,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

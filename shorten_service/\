@@ -1,0 +1,18 @@
+from django.conf.urls import url 
+ 
+from . import views 
+
+app_name = 'shorten_service' 
+urlpatterns = [ 
+     # ex: /shorten/
+     url(r'^$', views.index, name='index'),
+     # ex: /shorten/manage/<short_url>
+
+     # ex: /shorten/<short_url> -- redirect to long url
+     url(r'^<short_url>', views.redirect_url, name='redirect_url'),
+     # ajax validate
+     url(r'^ajax/validate_url/$', views.validate_url, name='validate_url'),
+
+     # ajax encode 
+     url(r'^ajax/encode_url/$', views.encode_url, name='encode_url'),
+]

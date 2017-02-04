@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html >
+<head>
+<title>Shorten Me | URL Shortener</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="referrer" content="always">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link href="//d1ayxb9ooonjts.cloudfront.net/bd80de809e88c59d84d25768a32690ff.css" rel="stylesheet" type="text/css">
+
+</head>
+<body class="">
+
+<div id="container" class="clearfix" style="background-image: url('http://theexperienceship.com/wp-content/uploads/2015/09/Digital-World-OpportunityInEveryConnection_Fotor.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+background-position: 0px -35px;">
+
+
+    <div class="container container-pod shorten-container" style="background: rgba(0, 0, 0, 0.5) none repeat scroll 0% 0%;">
+    <h1 class="page-title t-center">SHORTER THE LINK - BETTER THE LOOK</h1>
+        <div class="join-bitly t-center">Measure your links with Shorten Me</div>
+
+        <div id="form_container" class="t-center mid-container foot-room">
+            <form method="POST" action="" name="shortenUrl" id="shorten_url_form">
+               <fieldset class="cf">
+                    <input id="long_url" taborder="1" name="long_url" type="text" class="shorten-input" placeholder="Paste a link to shorten it" value="" autocomplete="off" autocorrect="off" autocapitalize="off" />
+                    <input id="shorten_btn" type="submit" class="button button-primary button-large shorten-button" value="Shorten" />
+                </fieldset>
+            </form>
+
+            <div id="result_holder">
+                 <p id="result_label" style="color:#fff;"></p>
+                 <p id="result" style="color: rgb(249, 255, 14);font-size: 25px;"></p>
+            </div>
+        </div>
+</div>
+<footer id="footer" role="contentinfo" data-template="stage-footer">
+<section class="stage-pod">
+<div class="container container-pod t-center">
+<div class="footer-links">
+<ul id="menu-footer-menu" class="nav footer-nav clearfix">
+<li><a href="/pages/privacy">Privacy Policy</a></li>
+<li><a href="/pages/terms-of-service">Terms Of Service</a></li>
+<li><a href="/pages/partners">Partners</a></li>
+<li><a href="/pages/careers">Careers</a></li>
+</ul>
+</div>
+<ul class="footer-social-links">
+<li class="footer-social-link footer-social-link-facebook">
+<a href="http://www.facebook.com/bitly" target="_blank"></a>
+</li>
+<li class="footer-social-link footer-social-link-twitter">
+<a href="http://twitter.com/bitly" target="_blank"></a>
+</li>
+<li class="footer-social-link footer-social-link-linkedin">
+<a href="http://www.linkedin.com/company/552285" target="_blank"></a>
+</li>
+<li class="footer-social-link footer-social-link-instagram">
+<a href="http://instagram.com/bitly" target="_blank"></a>
+</li>
+</ul>
+<div class="footer-attribution">
+<p class="small source-org copyright flush-bottom">
+© 201 7Shorten Me ™&nbsp;&nbsp; From Sai Gon
+</p>
+</div>
+</div>
+</section>
+</footer>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script>
+/*
+$('#shorten_url_form').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!");  // sanity check
+    alert('123');
+});
+*/
+$(document).ready(function () {
+
+    $("#shorten_btn").click(function (event) {
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+        var long_url = $("#long_url").val();
+        console.log(long_url);
+        $("#shorten_btn").prop("disabled", true);
+        $.ajax({
+            type: "POST",
+            url: "/shorten/ajax/encode_url/",
+            data:{
+                   'long_url':long_url
+                 },
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                $("#result_label").text("Your Shortened URL is :");
+                var text = 'http://45.76.152.135/shorten/' + data.short_url;
+                $("#result").text(text);
+                console.log("SUCCESS : ", data);
+                console.log("short in bloom",data.exist);
+                $("#shorten_btn").prop("disabled", false);
+
+            },
+            error: function (e) {
+
+                $("#result").text(e.responseText);
+                console.log("ERROR : ", e);
+                $("#shorten_btn").prop("disabled", false);
+
+            }
+        });
+    });
+/*
+    $("#long_url").change(function () {
+      console.log( $(this).val() );
+      var long_url = $(this).val();
+      $.ajax({
+          url: '/shorten/ajax/validate_url/',
+          data: { 
+              'long_url' : long_url
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.is_taken) {
+              alert("Your Url is already exist");
+            }
+          }
+      });
+    });
+*/
+})
+</script>
+</body>
+</html>
+
