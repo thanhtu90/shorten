@@ -44,18 +44,18 @@ def manage_url(request, short_url):
             msg = "success"
         else:
             msg = "your url not found - redis"
+
     context = {
         'long_url' : long_url,
         'short_url' : short_url,
         'dailyhits' : dailyhits,
     } 
 
-    # return render(request, 'shorten_service/tmp.html', context)
     return render(request, 'shorten_service/manage.html', context)
     
 
 def redirect_url(request, short_url):
-
+    status = 'error'
     # check in bloom filter
     global bloom_filter
     try :
@@ -69,6 +69,7 @@ def redirect_url(request, short_url):
     else:
         # check in redis
         if _redis.exists(short_url):
+            status = 'success'
             long_url = _redis.get(short_url)
             response = "you are redirect to " + long_url
             # increase hit by 1 in redis - using namespace dailyhit:<short_url>
@@ -76,6 +77,14 @@ def redirect_url(request, short_url):
         else:
             response = "your url not found - redis"
    
+    if status == 'success':
+        context = {
+            'long_url' : long_url,
+            'status' : status,
+            'response' : response,
+        }
+        return render(request, 'shorten_service/redirect.html', context)
+
     return HttpResponse(response)
 
 @csrf_exempt 
